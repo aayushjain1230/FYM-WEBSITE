@@ -11,8 +11,13 @@ import {
     setText,
 } from 'public/fymWixHelpers';
 import wixWindow from 'wix-window';
+import { mountFymEmbed } from 'public/fymEmbedBridge';
 
 $w.onReady(function () {
+    if (mountFymEmbed($w)) {
+        ['#text2', '#text3', '#371Ee199389C4A93849Ee35B8A15B7Ca1'].forEach(selector => collapseIfPresent($w, selector));
+        return;
+    }
     applyHomepageContent();
     applyHomepageStylingHooks();
 });
