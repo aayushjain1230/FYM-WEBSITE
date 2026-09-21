@@ -1,17 +1,4 @@
 import { fymEmbedContent } from 'public/fymEmbedContent';
-import wixLocation from 'wix-location';
-
-const wixRoutes = {
-    '/': '/',
-    '/about/': '/about-2',
-    '/our-work/': '/projects-7',
-    '/our-work/kelly-angelovic/': '/kelly-angelovic',
-    '/our-work/travelerlenz/': '/travelerlenz',
-    '/team/': '/meet-the-founder',
-    '/get-involved/': '/get-involved',
-    '/projects/': '/projects',
-    '/projects/scholarship-opportunity-finder/': '/scholarship-opportunity-finder',
-};
 
 export function mountFymEmbed($w, route = '/') {
     let frame;
@@ -25,9 +12,8 @@ export function mountFymEmbed($w, route = '/') {
     frame.onMessage(async event => {
         if (!event.data) return;
         if (event.data.type === 'fym:ready') send();
-        if (event.data.type === 'fym:navigate' && wixRoutes[event.data.route]) {
-            wixLocation.to(wixRoutes[event.data.route]);
-        }
+        // The embed is the complete FYM site. Its own router changes views;
+        // navigating the parent would expose the legacy Wix page underneath.
     });
     send();
     return true;
