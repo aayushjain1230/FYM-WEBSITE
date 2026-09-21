@@ -16,7 +16,7 @@ fs.writeFileSync(path.join(root, 'src/public/fymEmbedContent.js'),
 console.log(`Bundled ${routes.length} existing pages and the original stylesheet.`);
 
 // The canvas must render without waiting for Velo's Preview-only handshake.
-const bootstrap = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style id="fym-style"></style></head><body><div id="app"></div><script>
+const bootstrap = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style id="fym-style"></style></head><body><div id="app"></div><script>(() => {
 let bundle = ${JSON.stringify(bundle).replace(/</g, '\\u003c')};
 let route = '/';
 let memberLoggedIn = false;
@@ -70,7 +70,7 @@ function show(next) {
   window.scrollTo(0, 0);
   requestAnimationFrame(reportHeight);
   setTimeout(reportHeight, 250);
-  Promise.all(Array.from(app.images).map(img => img.complete ? Promise.resolve() : new Promise(resolve => {img.addEventListener('load', resolve, {once:true}); img.addEventListener('error', resolve, {once:true});}))).then(reportHeight);
+  Promise.all(Array.from(app.querySelectorAll('img')).map(img => img.complete ? Promise.resolve() : new Promise(resolve => {img.addEventListener('load', resolve, {once:true}); img.addEventListener('error', resolve, {once:true});}))).then(reportHeight);
 }
 window.addEventListener('message', event => {
   if (event.source !== parent || !event.data || (parentOrigin && event.origin !== parentOrigin)) return;
@@ -82,7 +82,7 @@ window.addEventListener('message', event => {
 });
 show('/');
 sendParent({type:'fym:ready'});
-</script></body></html>`;
+})();</script></body></html>`;
 fs.writeFileSync(path.join(source, 'wix-embed.generated.txt'), bootstrap);
 fs.writeFileSync(path.join(source, 'wix-embed-transfer.generated.html'),
   '<!doctype html><html><head><title>FYM Wix embed transfer</title></head><body><textarea aria-label="Wix embed code">' +
