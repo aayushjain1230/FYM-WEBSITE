@@ -3,12 +3,13 @@ const path = require('node:path');
 
 const root = path.resolve(__dirname, '..');
 const source = path.join(root, 'fym-site-copy');
-const routes = ['/', '/projects/', '/projects/scholarship-opportunity-finder/', '/apply/', '/about/', '/our-work/', '/our-work/kelly-angelovic/', '/our-work/travelerlenz/', '/team/', '/get-involved/'];
+const routes = ['/', '/projects/', '/projects/scholarship-opportunity-finder/', '/about/', '/our-work/', '/our-work/kelly-angelovic/', '/our-work/travelerlenz/', '/team/', '/get-involved/'];
 const pages = Object.fromEntries(routes.map(route => [route,
   fs.readFileSync(path.join(source, route.slice(1), 'index.html'), 'utf8')
 ]));
 const css = fs.readFileSync(path.join(source, 'styles.css'), 'utf8');
-const bundle = { type: 'fym:render', pages, css };
+const config = JSON.parse(fs.readFileSync(path.join(source, 'site-config.json'), 'utf8'));
+const bundle = { type: 'fym:render', pages, css, config };
 fs.writeFileSync(path.join(root, 'src/public/fymEmbedContent.js'),
   '// Generated from fym-site-copy by scripts/build-wix-embed.cjs.\n' +
   'export const fymEmbedContent = ' + JSON.stringify(bundle) + ';\n');
@@ -38,12 +39,18 @@ function show(next) {
       });
     } else { a.href = url.href; a.target = '_blank'; a.rel = 'noopener noreferrer'; }
   });
-  const application = app.querySelector('[data-fym-application]');
-  if (application) application.addEventListener('submit', event => {
-    event.preventDefault();
-    if (!application.reportValidity()) return;
-    const data = Object.fromEntries(new FormData(application).entries());
-    parent.postMessage({type:'fym:application', data}, '*');
+  app.querySelectorAll('[data-project-apply]').forEach(link => {
+    const destination = bundle.config && bundle.config.projectApplicationUrl;
+    if (destination) {
+      link.href = destination;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    } else {
+      link.removeAttribute('href');
+      link.setAttribute('aria-disabled', 'true');
+      link.classList.add('button-disabled');
+      link.title = 'Applications will open when the official form is ready.';
+    }
   });
   window.scrollTo(0, 0);
   requestAnimationFrame(reportHeight);
@@ -55,13 +62,6 @@ window.addEventListener('message', event => {
   if (event.data.type === 'fym:render') {
     if (!event.data.pages || typeof event.data.css !== 'string') return;
     bundle = event.data; show(bundle.route || '/');
-  }
-  if (event.data.type === 'fym:application-result') {
-    const status = app.querySelector('.form-status');
-    const form = app.querySelector('[data-fym-application]');
-    if (!status) return;
-    status.textContent = event.data.ok ? 'Application received.' : (event.data.message || 'Please try again.');
-    if (event.data.ok && form) { form.reset(); form.querySelector('button[type="submit"]').disabled = false; }
   }
 });
 show('/');

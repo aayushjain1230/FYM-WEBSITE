@@ -1,6 +1,5 @@
 import { fymEmbedContent } from 'public/fymEmbedContent';
 import wixLocation from 'wix-location';
-import { submitProjectApplication } from 'backend/fymApplications';
 
 const wixRoutes = {
     '/': '/',
@@ -12,7 +11,6 @@ const wixRoutes = {
     '/get-involved/': '/get-involved',
     '/projects/': '/projects',
     '/projects/scholarship-opportunity-finder/': '/scholarship-opportunity-finder',
-    '/apply/': '/project-application',
 };
 
 export function mountFymEmbed($w, route = '/') {
@@ -29,14 +27,6 @@ export function mountFymEmbed($w, route = '/') {
         if (event.data.type === 'fym:ready') send();
         if (event.data.type === 'fym:navigate' && wixRoutes[event.data.route]) {
             wixLocation.to(wixRoutes[event.data.route]);
-        }
-        if (event.data.type === 'fym:application') {
-            try {
-                await submitProjectApplication(event.data.data);
-                frame.postMessage({ type: 'fym:application-result', ok: true });
-            } catch (error) {
-                frame.postMessage({ type: 'fym:application-result', ok: false, message: 'Please check the form and try again.' });
-            }
         }
     });
     send();
