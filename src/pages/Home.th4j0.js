@@ -16,6 +16,8 @@ import { mountFymEmbed } from 'public/fymEmbedBridge';
 $w.onReady(function () {
     if (mountFymEmbed($w)) {
         ['#text2', '#text3', '#371Ee199389C4A93849Ee35B8A15B7Ca1'].forEach(selector => collapseIfPresent($w, selector));
+        setBackgroundColor($w, '#comp-lt8phayo', '#F5EEDD');
+        setBackgroundColor($w, '#section1', '#F5EEDD');
         return;
     }
     applyHomepageContent();
@@ -262,7 +264,7 @@ function renderIntegratedHomepage(hero) {
             </section>
 
             <footer class="fymFooter">
-                <div class="fymInner"><div class="fymFooterTop"><div class="fymFooterBrand"><strong>FYM</strong><p style="margin:0; color:rgba(245,238,221,.82);">Student-led work, built with care.</p></div><nav class="fymFooterLinks" aria-label="Footer"><a href="/">Home</a><a href="/about-2">About</a><a href="/projects-7">Our Work</a><a href="/meet-the-founder">Team</a><a href="/about-2?view=get-involved">Get Involved</a><a href="mailto:futureyouthmarket@gmail.com">futureyouthmarket@gmail.com</a><a href="http://instagram.com/future.youth.market" target="_blank">Instagram</a></nav></div></div>
+                <div class="fymInner"><div class="fymFooterTop"><div class="fymFooterBrand"><strong>FYM</strong><p style="margin:0; color:rgba(245,238,221,.82);">Student-led work, built with care.</p></div><nav class="fymFooterLinks" aria-label="Footer"><a href="/">Home</a><a href="/about-2">About</a><a href="/projects-7">Our Work</a><a href="/meet-the-founder">Team</a><a href="/about-2?view=get-involved">Get Involved</a><a href="mailto:futureyouthmarket@gmail.com">futureyouthmarket@gmail.com</a><a href="https://instagram.com/future.youth.market" target="_blank" rel="noopener noreferrer">Instagram</a></nav></div></div>
             </footer>
         </div>
     `;

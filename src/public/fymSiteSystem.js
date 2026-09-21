@@ -11,7 +11,7 @@ export const FYM = {
     border: 'rgba(36,49,61,0.14)',
     maxWidth: '1180px',
     email: 'futureyouthmarket@gmail.com',
-    instagram: 'http://instagram.com/future.youth.market',
+    instagram: 'https://instagram.com/future.youth.market',
     signUp: 'https://docs.google.com/forms/d/e/1FAIpQLSevrzNFQWZwz5mbwL5e_55xC7Ov_JU1O-XVfndWGuBN4_w-hQ/viewform',
 };
 
