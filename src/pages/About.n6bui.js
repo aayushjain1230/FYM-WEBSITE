@@ -2,8 +2,13 @@ import wixLocation from 'wix-location';
 import wixWindow from 'wix-window';
 import { collapseIfPresent, setHtml } from 'public/fymWixHelpers';
 import { FYM, PROJECT_MEDIA, ROUTES, label, media, pageHero, primaryButton, renderSiteShell, textLink } from 'public/fymSiteSystem';
+import { mountFymEmbed } from 'public/fymEmbedBridge';
 
 $w.onReady(function () {
+    if (mountFymEmbed($w, '/about/')) {
+        collapseLegacyAboutCanvas();
+        return;
+    }
     const isMobile = wixWindow.formFactor === 'Mobile';
     const isGetInvolved = wixLocation.query.view === 'get-involved';
     const html = renderSiteShell(isGetInvolved ? 'get-involved' : 'about', isGetInvolved ? renderGetInvolved(isMobile) : renderAbout(isMobile), isMobile);

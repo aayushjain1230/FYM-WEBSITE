@@ -1,0 +1,30 @@
+import wixData from 'wix-data';
+
+const COLLECTION = 'ProjectApplications';
+const required = ['name', 'email', 'grade', 'school', 'project', 'skills', 'interest', 'workPreference', 'weeklyCommitment'];
+
+export async function submitProjectApplication(input) {
+    const application = sanitize(input);
+    for (const field of required) {
+        if (!application[field]) throw new Error(`Missing ${field}`);
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(application.email)) {
+        throw new Error('Invalid email');
+    }
+    const record = await wixData.insert(COLLECTION, {
+        ...application,
+        submittedAt: new Date(),
+        source: 'FYM website',
+    }, { suppressAuth: true });
+    return { id: record._id };
+}
+
+function sanitize(input = {}) {
+    const clean = {};
+    const fields = [...required, 'areas', 'additionalNotes'];
+    for (const field of fields) {
+        const value = Array.isArray(input[field]) ? input[field].join(', ') : input[field];
+        clean[field] = String(value || '').trim().slice(0, 4000);
+    }
+    return clean;
+}

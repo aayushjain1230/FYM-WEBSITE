@@ -2,8 +2,14 @@ import wixLocation from 'wix-location';
 import wixWindow from 'wix-window';
 import { collapseIfPresent, revealIfPresent, setHtml } from 'public/fymWixHelpers';
 import { FYM, PROJECT_MEDIA, ROUTES, label, media, pageHero, renderSiteShell, textLink } from 'public/fymSiteSystem';
+import { mountFymEmbed } from 'public/fymEmbedBridge';
 
 $w.onReady(function () {
+    if (mountFymEmbed($w, '/our-work/')) {
+        collapseIfPresent($w, '#Section1ListHeaderLongtext1');
+        collapseIfPresent($w, '#Section2List');
+        return;
+    }
     const isMobile = wixWindow.formFactor === 'Mobile';
     const project = wixLocation.query.case;
     const body = project === 'kelly-angelovic'

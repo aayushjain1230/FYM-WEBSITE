@@ -1,8 +1,14 @@
 import wixWindow from 'wix-window';
 import { collapseIfPresent, revealIfPresent, setHtml } from 'public/fymWixHelpers';
 import { FYM, ROUTES, label, pageHero, renderSiteShell, textLink } from 'public/fymSiteSystem';
+import { mountFymEmbed } from 'public/fymEmbedBridge';
 
 $w.onReady(function () {
+    if (mountFymEmbed($w, '/team/')) {
+        collapseIfPresent($w, '#Section1RegularLongtext1');
+        collapseIfPresent($w, '#Section3Regular');
+        return;
+    }
     const isMobile = wixWindow.formFactor === 'Mobile';
     const html = renderSiteShell('team', renderTeam(isMobile), isMobile);
     setHtml($w, '#Section1RegularTitle1', html);
