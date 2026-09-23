@@ -1,11 +1,17 @@
-# Git Integration & Wix CLI <img align="left" src="https://user-images.githubusercontent.com/89579857/185785022-cab37bf5-26be-4f11-85f0-1fac63c07d3b.png">
+# Future Youth Market website
+
+This repository contains the standalone redesign in `fym-site-copy/` and the Wix/Velo code in `src/`. The standalone pages can be opened locally from `fym-site-copy/index.html`.
+
+**Important:** Uploading this source to GitHub does not, by itself, update the visual Wix Editor layout or publish the website. Verify the actual Wix Preview separately.
+
+## Wix Git Integration & CLI
 
 This repo is part of Git Integration & Wix CLI, a set of tools that allows you to write, test, and publish code for your Wix site locally on your computer. 
 
 Connect your site to GitHub, develop in your favorite IDE, test your code in real time, and publish your site from the command line.
 
 ## Set up this repository in your IDE
-This repo is connected to a Wix site. That site tracks this repo's default branch. Any code committed and pushed to that branch from your local IDE appears on the site.
+The original Wix source used Git integration. This newly created GitHub repository has not been verified as the Wix site's connected repository; pushing to it should not be assumed to update Wix.
 
 Before getting started, make sure you have the following things installed:
 * [Git](https://git-scm.com/download)
